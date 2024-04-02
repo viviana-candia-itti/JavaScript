@@ -1,0 +1,33 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Analyze on SonarCloud
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3 # Actualizado a la última versión
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3 # Asegúrate de usar la versión más reciente
+      with:
+        node-version: '20' # Especifica la versión de Node.js
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.projectKey="JavaScript"
+          -Dsonar.organization="viviana-candia-itti"
